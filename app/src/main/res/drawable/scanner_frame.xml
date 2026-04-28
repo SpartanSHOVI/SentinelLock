@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Main Thin Outline -->
+    <item>
+        <shape>
+            <stroke android:width="1dp" android:color="#4400E676" />
+            <corners android:radius="12dp" />
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    <!-- Top Left Corner -->
+    <item android:width="40dp" android:height="40dp" android:gravity="top|left">
+        <shape>
+            <stroke android:width="4dp" android:color="@color/accent" />
+            <corners android:topLeftRadius="12dp" />
+        </shape>
+    </item>
+    <!-- Top Right Corner -->
+    <item android:width="40dp" android:height="40dp" android:gravity="top|right">
+        <shape>
+            <stroke android:width="4dp" android:color="@color/accent" />
+            <corners android:topRightRadius="12dp" />
+        </shape>
+    </item>
+    <!-- Bottom Left Corner -->
+    <item android:width="40dp" android:height="40dp" android:gravity="bottom|left">
+        <shape>
+            <stroke android:width="4dp" android:color="@color/accent" />
+            <corners android:bottomLeftRadius="12dp" />
+        </shape>
+    </item>
+    <!-- Bottom Right Corner -->
+    <item android:width="40dp" android:height="40dp" android:gravity="bottom|right">
+        <shape>
+            <stroke android:width="4dp" android:color="@color/accent" />
+            <corners android:bottomRightRadius="12dp" />
+        </shape>
+    </item>
+</layer-list>

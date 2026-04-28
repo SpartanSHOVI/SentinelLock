@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_setup"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Security Setup" />
+        <item
+            android:id="@+id/nav_enroll"
+            android:icon="@android:drawable/ic_menu_camera"
+            android:title="Biometric Enrollment" />
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@android:drawable/ic_menu_today"
+            android:title="Intelligence Dashboard" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="System Settings" />
+    </group>
+</menu>

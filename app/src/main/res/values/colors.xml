@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#2E7D32</color>
+    <color name="primary_dark">#1B5E20</color>
+    <color name="accent">#00E676</color>
+
+    <color name="bg_dark">#121212</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="on_surface">#FFFFFF</color>
+    <color name="on_surface_variant">#B0B0B0</color>
+
+    <color name="error">#CF6679</color>
+    <color name="alert_red">#FF1744</color>
+
+    <color name="status_scanning">#2196F3</color>
+    <color name="status_verified">#4CAF50</color>
+</resources>

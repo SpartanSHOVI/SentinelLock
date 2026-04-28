@@ -1,0 +1,23 @@
+# Android standard
+*.iml 
+.gradle 
+/local.properties 
+/.idea/ 
+.DS_Store 
+/build 
+/app/build 
+/captures
+
+# Project specific large files/folders
+/sdk/
+/cmdline/
+/tools/
+/gradle/extracted/
+cmdline.zip
+gradle-8.5-bin.zip
+*.apk
+*.exe
+*.zip
+*.jar
+!app/libs/*.jar
+!gradle/wrapper/gradle-wrapper.jar

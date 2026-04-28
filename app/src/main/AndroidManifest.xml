@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Permissions (see README for why each is required) -->
+    <!-- SYSTEM_ALERT_WINDOW is a special permission granted by the user via
+         Settings.ACTION_MANAGE_OVERLAY_PERMISSION; keep the entry for
+         documentation, but it will not be automatically granted by the system. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Required when using foregroundServiceType="camera" on targetSdk >= 34 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- BIND_DEVICE_ADMIN is declared on the device admin receiver. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Media Permissions for Dashboard Visibility -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
+    <!-- Declare camera as an optional feature so Play Store filtering understands camera usage -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:theme="@style/Theme.SentinelLock">
+
+        <!-- One-time setup wizard (visible during setup only) -->
+        <activity
+            android:name="com.sentinel.lock.SetupActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.sentinel.lock.EnrollActivity" />
+        <activity android:name="com.sentinel.lock.DashboardActivity" />
+        <activity android:name="com.sentinel.lock.SettingsActivity" />
+        <activity android:name="com.sentinel.lock.FreezeActivity"
+            android:theme="@style/Theme.SentinelLock.Transparent"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:showOnLockScreen="true" />
+
+        <!-- Core sticky foreground service (disguised as system UI) -->
+        <service
+            android:name="com.sentinel.lock.services.SentinelService"
+            android:exported="false"
+            android:foregroundServiceType="camera" />
+
+        <!-- Receiver: USER_PRESENT (unlock), SCREEN_ON (power button), and BOOT_COMPLETED -->
+        <receiver android:name="com.sentinel.lock.receivers.UnlockReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Device admin receiver (anti-uninstall) -->
+        <receiver
+            android:name="com.sentinel.lock.admin.SentinelDeviceAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_policies" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.action.ACTION_PASSWORD_FAILED" />
+                <action android:name="android.app.action.ACTION_PASSWORD_SUCCEEDED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
