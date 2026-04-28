@@ -92,9 +92,18 @@ public class FreezeActivity extends AppCompatActivity {
             if (currentAttempt.equals(secretPattern)) {
                 isVerified = true;
                 finish();
+            } else if (currentAttempt.size() == secretPattern.size()) {
+                // Wrong pattern attempt - log it
+                Intent logIntent = new Intent("com.sentinel.lock.LOG_INTRUDER");
+                logIntent.putExtra("reason", "Failed Pattern Attempt");
+                sendBroadcast(logIntent);
+                
+                if (!isIntruder) {
+                    triggerFlashbang();
+                }
             } else if (!isIntruder) {
-                // If not already in flashbang mode, any tap that doesn't complete the pattern triggers it
-                triggerFlashbang();
+                // If they touch anywhere but the invisible corner buttons, trigger flashbang
+                // triggerFlashbang(); // Keep it silent until they try a full pattern or touch root
             }
         };
 

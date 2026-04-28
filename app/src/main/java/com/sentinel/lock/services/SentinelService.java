@@ -53,6 +53,23 @@ public class SentinelService extends LifecycleService {
             Log.d(TAG, "Service stopReceiver action: " + action);
             if ("com.sentinel.lock.STOP_VERIFICATION".equals(action)) {
                 stopCameraVerification();
+            } else if ("com.sentinel.lock.LOG_INTRUDER".equals(action)) {
+                String reason = intent.getStringExtra("reason");
+                if (reason == null) reason = "Manual Intruder Log";
+                Log.w(TAG, "Requesting intruder log: " + reason);
+                if (faceAnalyzer != null) {
+                    // Ensure camera is running if it's not
+                    if (!isScanning) {
+                        isScanning = true;
+                        startCameraAndAnalysis();
+                    }
+                    faceAnalyzer.captureAndLogIntruder(reason);
+                    
+                    // Keep camera alive for a moment to capture
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                        if (!isScanning) stopCameraVerification(); 
+                    }, 2000);
+                }
             } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
                 Log.i(TAG, "Screen ON - Resetting and starting fresh verification");
                 
@@ -79,10 +96,15 @@ public class SentinelService extends LifecycleService {
                                    Intent.FLAG_ACTIVITY_SINGLE_TOP |
                                    Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     context.startActivity(freeze);
+                    
+                    // Give the analyzer 1 second to capture the frame before stopping camera
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                        stopCameraVerification();
+                    }, 1000);
+                } else {
+                    // Stop camera immediately if verified
+                    stopCameraVerification();
                 }
-
-                // Stop camera so it's ready for the next wake cycle
-                stopCameraVerification();
             }
         }
     };
